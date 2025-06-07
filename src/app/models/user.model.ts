@@ -4,4 +4,6 @@ export class User {
     email:string;
     password:string;
     token?:string;
+
+    // Más adelante podemos meter más relaciones
 }

@@ -30,7 +30,7 @@ import { NoAuthenticatedGuard } from './guardians/no-authenticated.guard';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
   ],
   providers: [  // Activamos el interceptor
     {
