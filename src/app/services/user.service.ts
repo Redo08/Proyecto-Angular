@@ -16,4 +16,14 @@ export class UserService {
   view(id: number): Observable<User> {
     return this.http.get<User>(`${environment.url_ms_socket}/api/users/${id}`)
   }
+  create(newUser: User): Observable<User> {
+    delete newUser.id;
+    return this.http.post<User>(`${environment.url_ms_socket}/api/users`, newUser);
+  }
+  update(theUser: User): Observable<User> {
+    return this.http.put<User>(`${environment.url_ms_socket}/api/users/${theUser.id}`, theUser);
+  }
+  delete(id: number) {
+    return this.http.delete<User>(`${environment.url_ms_socket}/api/users/${id}`);
+  }
 }
