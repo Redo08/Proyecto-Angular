@@ -11,6 +11,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { } // Inyectando servicio HTTP
   list(): Observable<User[]> {
+    console.log("Obteniendo usuarios");
     return this.http.get<User[]>(`${environment.url_ms_socket}/api/users`);
   }
   view(id: number): Observable<User> {

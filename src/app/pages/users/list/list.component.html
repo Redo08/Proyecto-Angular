@@ -1,1 +1,42 @@
-<p>list works!</p>
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header bg-transparent d-flex justify-content-start align-items-center">
+          <h2 class="mb-0 display-4">Users</h2>
+          <button
+            type="button"
+            class="btn btn-success btn-circle-plus margin-left-custom"
+            (click)="create()"
+          >
+          <i class="fas fa-plus"></i>
+          </button>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <tr>
+                    <td>ID</td>
+                    <td>Name</td>
+                    <td>Email</td>
+                    <td>Options</td>
+                </tr>
+                <tr *ngFor="let user of users">  <!-- Condicionales y ciclos dentro de HTML-->
+                    <td>{{user.id}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.email}}</td>
+                    <td>
+                      <button class="btn btn-secondary" (click)="view(user.id)">View</button>
+                        <button class="btn btn-primary" (click)="edit(user.id)">Update</button>
+                        <button class="btn btn-danger" (click)="delete(user.id)">Delete</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

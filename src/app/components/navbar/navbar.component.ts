@@ -23,19 +23,20 @@ export class NavbarComponent implements OnInit {
     private element: ElementRef,
     private router: Router,
     private securityService: SecurityService,
-    private webSocketService: WebSocketService) {
+    // private webSocketService: WebSocketService
+  ) {
     this.location = location;
-    this.subscription = this.securityService.getUser().subscribe(data => {
-      this.user = data;
-    })
+    // this.subscription = this.securityService.getUser().subscribe(data => {
+    //   this.user = data;
+    // })
   }
 
   ngOnInit() {
     this.listTitles = ROUTES.filter(listTitle => listTitle);
-    this.webSocketService.setNameEvent("new_notification"); // Tiene que ser el mismo nombre que el del Backend
-    this.webSocketService.callback.subscribe((data: any) => {
-      console.log("Nueva notificación recibida: ", data);
-    });
+    // this.webSocketService.setNameEvent("new_notification"); // Tiene que ser el mismo nombre que el del Backend
+    // this.webSocketService.callback.subscribe((data: any) => {
+    //   console.log("Nueva notificación recibida: ", data);
+    // });
   }
   getTitle(){
     var titlee = this.location.prepareExternalUrl(this.location.path());

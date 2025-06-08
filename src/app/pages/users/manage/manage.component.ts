@@ -24,7 +24,6 @@ export class ManageComponent implements OnInit {
   ) {
     this.trySend = false;
     this.user = { id: 0};
-    this.configFormGroup();
   }
 
   ngOnInit(): void {
@@ -36,6 +35,10 @@ export class ManageComponent implements OnInit {
     } else if (currentUrl.includes("update")) {
       this.mode = 3;
     }
+
+    // Hacemos llamados al configFormGroup
+    this.configFormGroup();
+
     if (this.activatedRoute.snapshot.params.id) {
       this.user.id = this.activatedRoute.snapshot.params.id;
       this.getUser(this.user.id);
@@ -43,15 +46,23 @@ export class ManageComponent implements OnInit {
   }
 
   configFormGroup() {
-    console.log("creando");
+    console.log("creando o configurando para el modo: ", this.mode);
     this.theFormGroup = this.theFormBuilder.group({
       // primer elemento del vector, valor por defecto
       // lista, serán las reglas
-      id: [0, []],
-      name: ['', [Validators.required, Validators.minLength(2)]],
+      id: [{value: 0, disabled: true}],
+      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(5)]],
-    })
+      // password: ['', [Validators.required, Validators.minLength(5)]],
+    });
+
+    // Para deshabilitar
+    if (this.mode === 1) {
+      this.theFormGroup.disable();
+    } else {
+      this.theFormGroup.enable();
+      this.theFormGroup.get('id')?.disable();
+    }
   }
 
   get getTheFormGroup() {
@@ -98,7 +109,8 @@ export class ManageComponent implements OnInit {
       })
       return;
     }
-    this.userService.update(this.user).subscribe({
+    const userToUpdate = this.theFormGroup.getRawValue()
+    this.userService.update(userToUpdate).subscribe({
       next: (user) => {
         console.log("User updated successfully:", user);
         Swal.fire({
@@ -123,7 +135,7 @@ export class ManageComponent implements OnInit {
           id: this.user.id,
           name: this.user.name,
           email: this.user.email,
-          password: this.user.password
+          // password: this.user.password
         });      
       },
       error: (error) => {
