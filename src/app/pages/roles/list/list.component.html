@@ -8,7 +8,13 @@
       <div class="card shadow">
         <div class="card-header bg-transparent">
           <h3 class="mb-0">Roles</h3>
-          <button class="btn btn-success" (click)="create()">Crear</button>
+           <button
+            type="button"
+            class="btn btn-success btn-circle-plus margin-left-custom"
+            (click)="create()"
+          >
+          <i class="fas fa-plus"></i>
+          </button>
         </div>
         <div class="card-body">
             <table class="table">
