@@ -1,0 +1,54 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header bg-transparent d-flex justify-content-start align-items-center">
+          <h2 class="mb-0 display-4">Asignaciones de Roles</h2>
+          <button
+            type="button"
+            class="btn btn-success btn-circle-plus margin-left-custom"
+            (click)="create()"
+            title="Crear"
+          >
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">ID Asignación</th>
+                  <th scope="col">Nombre del Usuario</th>
+                  <th scope="col">Rol Asignado</th>
+                  <th>Fecha de Inicio</th>
+                  <th>Fecha de Fin</th>
+                  <th scope="col">Opciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="!userRoles || userRoles.length === 0">
+                    <td colspan="4" class="text-center">No hay asignaciones de roles para mostrar.</td>
+                </tr>
+                <tr *ngFor="let userRole of userRoles">
+                    <td>{{ userRole.id }}</td>
+                    <td>{{ getUserName(userRole.userId) }}</td>
+                    <td>{{ getRoleName(userRole.roleId) }}</td>
+                    <td>{{ userRole.startAt | date:'yyyy-MM-dd' }}</td>
+                    <td>{{ userRole.endAt ? (userRole.endAt | date:'yyyy-MM-dd') : 'Sin definir' }}</td>                  
+                  <td>
+                    <button class="btn btn-secondary btn-sm" (click)="view(item._id)">Ver</button>
+                    <button class="btn btn-primary" (click)="edit(userRole.id)">Actualizar</button>
+                    <button class="btn btn-danger btn-sm" (click)="delete(item._id)">Eliminar</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

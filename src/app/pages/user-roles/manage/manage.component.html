@@ -1,0 +1,116 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+<!-- Contenido de la página -->
+<div class="container-fluid mt--7">
+  <!-- Formulario -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header bg-transparent">
+          <h3 class="mb-0" *ngIf="mode === 1">Ver Asignación</h3>
+          <h3 class="mb-0" *ngIf="mode === 2">Asignar Nuevo Rol</h3>
+          <h3 class="mb-0" *ngIf="mode === 3">Actualizar Asignación</h3>
+        </div>
+        <div class="card-body">
+          <form class="form" [formGroup]="userRoleForm">
+            <div class="card-body container">
+              <div class="row">
+                <div class="col-3">Usuario</div>
+                <div class="col-9">
+                  <select
+                    id="userId"
+                    class="form-control"
+                    formControlName="userId"
+                    [disabled]="mode === 1 || mode === 3"
+                  >
+                    <option [ngValue]="null" disabled>Seleccione un usuario...</option>
+                    <option *ngFor="let user of users" [ngValue]="user.id">{{ user.name }} ({{ user.email }})</option>
+                  </select>
+                  <div *ngIf="f.userId.invalid && (f.userId.dirty || f.userId.touched || trySend)">
+                    <strong *ngIf="f.userId.errors?.required" class="msnError">El usuario es requerido.</strong>
+                  </div>
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col-3">Rol</div>
+                <div class="col-9">
+                  <select
+                    id="roleId"
+                    class="form-control"
+                    formControlName="roleId"
+                    [disabled]="mode === 1 || mode === 3"
+                  >
+                    <option [ngValue]="null" disabled>Seleccione un rol...</option>
+                    <option *ngFor="let role of roles" [ngValue]="role.id">{{ role.name }}</option>
+                  </select>
+                  <div *ngIf="f.roleId.invalid && (f.roleId.dirty || f.roleId.touched || trySend)">
+                    <strong *ngIf="f.roleId.errors?.required" class="msnError">El rol es requerido.</strong>
+                  </div>
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col-3">Fecha de Inicio</div>
+                <div class="col-9">
+                  <input
+                    id="startAt"
+                    type="datetime-local"
+                    class="form-control"
+                    formControlName="startAt"
+                    [disabled]="mode === 1"
+                  />
+                  <div *ngIf="f.startAt.invalid && (f.startAt.dirty || f.startAt.touched || trySend)">
+                    <strong *ngIf="f.startAt.errors?.required" class="msnError">La fecha de inicio es requerida.</strong>
+                  </div>
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col-3">Fecha de Fin</div>
+                <div class="col-9">
+                  <input
+                    id="endAt"
+                    type="datetime-local"
+                    class="form-control"
+                    formControlName="endAt"
+                    [disabled]="mode === 1"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col-3"></div>
+                <div class="col-9">
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-block"
+                    (click)="back()"
+                    *ngIf="mode === 1"
+                  >
+                    Regresar
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-success btn-block"
+                    (click)="create()"
+                    *ngIf="mode === 2"
+                  >
+                    Asignar Rol
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-warning btn-block"
+                    (click)="update()"
+                    *ngIf="mode === 3"
+                  >
+                    Actualizar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
