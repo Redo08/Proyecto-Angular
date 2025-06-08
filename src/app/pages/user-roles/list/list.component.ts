@@ -15,8 +15,8 @@ import Swal from 'sweetalert2';
 })
 export class ListComponent implements OnInit {
   userRoles: UserRoles[];
-  users: User[];
-  roles: Role[];
+  users: User[] = [];
+  roles: Role[] = [];
 
   constructor(
     private userRoleService: UserRoleService,
@@ -55,13 +55,13 @@ export class ListComponent implements OnInit {
     });
   }
 
-  getUserName(userId: number): string {
-    const user = this.users.find(u => u.id === userId);
+  getUserName(user_id: number): string {
+    const user = this.users.find(u => u.id === user_id);
     return user ? user.name : 'Desconocido';
   }
 
-  getRoleName(roleId: number): string {
-    const role = this.roles.find(r => r.id === roleId);
+  getRoleName(role_id: number): string {
+    const role = this.roles.find(r => r.id === role_id);
     return role ? role.name : 'Desconocido';
   }
 

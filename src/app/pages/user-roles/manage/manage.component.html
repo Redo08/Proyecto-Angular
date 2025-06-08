@@ -17,16 +17,16 @@
                 <div class="col-3">Usuario</div>
                 <div class="col-9">
                   <select
-                    id="userId"
+                    id="user_id"
                     class="form-control"
-                    formControlName="userId"
+                    formControlName="user_id"
                     [disabled]="mode === 1 || mode === 3"
                   >
                     <option [ngValue]="null" disabled>Seleccione un usuario...</option>
                     <option *ngFor="let user of users" [ngValue]="user.id">{{ user.name }} ({{ user.email }})</option>
                   </select>
-                  <div *ngIf="f.userId.invalid && (f.userId.dirty || f.userId.touched || trySend)">
-                    <strong *ngIf="f.userId.errors?.required" class="msnError">El usuario es requerido.</strong>
+                  <div *ngIf="f.user_id.invalid && (f.user_id.dirty || f.user_id.touched || trySend)">
+                    <strong *ngIf="f.user_id.errors?.required" class="msnError">El usuario es requerido.</strong>
                   </div>
                 </div>
               </div>
@@ -35,16 +35,16 @@
                 <div class="col-3">Rol</div>
                 <div class="col-9">
                   <select
-                    id="roleId"
+                    id="role_id"
                     class="form-control"
-                    formControlName="roleId"
+                    formControlName="role_id"
                     [disabled]="mode === 1 || mode === 3"
                   >
                     <option [ngValue]="null" disabled>Seleccione un rol...</option>
                     <option *ngFor="let role of roles" [ngValue]="role.id">{{ role.name }}</option>
                   </select>
-                  <div *ngIf="f.roleId.invalid && (f.roleId.dirty || f.roleId.touched || trySend)">
-                    <strong *ngIf="f.roleId.errors?.required" class="msnError">El rol es requerido.</strong>
+                  <div *ngIf="f.role_id.invalid && (f.role_id.dirty || f.role_id.touched || trySend)">
+                    <strong *ngIf="f.role_id.errors?.required" class="msnError">El rol es requerido.</strong>
                   </div>
                 </div>
               </div>

@@ -20,7 +20,7 @@ export class ManageComponent implements OnInit {
   users: User[] = [];
   roles: Role[] = [];
   trySend: boolean = false;
-  userRole: UserRoles = { id: 0, userId: 0, roleId: 0, startAt: '', endAt: ''};
+  userRole: UserRoles = { id: 0, user_id: 0, role_id: 0, startAt: '', endAt: ''};
 
   constructor(
     private fb: FormBuilder,
@@ -58,8 +58,8 @@ export class ManageComponent implements OnInit {
 
   configFormGroup(): void {
     this.userRoleForm = this.fb.group({
-      userId: [{ value: null, disabled: this.mode === 1 || this.mode === 3 }, [Validators.required]],
-      roleId: [{ value: null, disabled: this.mode === 1 || this.mode === 3 }, [Validators.required]],
+      user_id: [{ value: null, disabled: this.mode === 1 || this.mode === 3 }, [Validators.required]],
+      role_id: [{ value: null, disabled: this.mode === 1 || this.mode === 3 }, [Validators.required]],
       startAt: ['', [Validators.required]],
       endAt: ['', [Validators.required]],
     }, { validators: this.dateRangeValidator });
@@ -116,8 +116,8 @@ export class ManageComponent implements OnInit {
         const startAtFormatted = userRole.startAt ? userRole.startAt.replace(' ', 'T').slice(0, 16) : '';
         const endAtFormatted = userRole.endAt ? userRole.endAt.replace(' ', 'T').slice(0, 16) : '';
         this.userRoleForm.patchValue({
-          userId: userRole.userId,
-          roleId: userRole.roleId,
+          user_id: userRole.user_id,
+          role_id: userRole.role_id,
           startAt: startAtFormatted,
           endAt: endAtFormatted
         });
@@ -151,7 +151,7 @@ export class ManageComponent implements OnInit {
     console.log('Valores del formulario:', formData);
     console.log('Payload antes de enviar:', payload);
 
-    this.userRoleService.create(formData.userId, formData.roleId,payload)
+    this.userRoleService.create(formData.user_id, formData.role_id,payload)
     .subscribe({
       next: () => {
         Swal.fire({
@@ -181,8 +181,8 @@ export class ManageComponent implements OnInit {
     const formData = this.userRoleForm.getRawValue();
     const updatedUserRole: UserRoles = {
       id: this.userRole.id,
-      userId: formData.userId,
-      roleId: formData.roleId,
+      user_id: formData.user_id,
+      role_id: formData.role_id,
       startAt: this.formatDateToBackend(formData.startAt),
       endAt: this.formatDateToBackend(formData.endAt)
     };

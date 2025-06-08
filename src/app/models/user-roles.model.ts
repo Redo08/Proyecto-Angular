@@ -5,8 +5,8 @@ export class UserRoles {
     id?: number;
     startAt?: string;
     endAt?: string;   
-    userId?: number;
-    roleId?: number;    
+    user_id?: number;
+    role_id?: number;    
     user?: User; // Opcional, para incluir el objeto completo del usuario
     role?: Role; // Opcional, para incluir el objeto completo del rol
 

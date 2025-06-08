@@ -18,10 +18,10 @@ export class UserRoleService {
     return this.http.get<UserRoles>(`${this.apiUrl}/${id}`);
   }
 
-  create(userId: number, roleId: number, data: { startAt: string; endAt: string }): Observable<UserRoles> {
-    console.log('Enviando solicitud POST:', { url: `${this.apiUrl}/user/${userId}/role/${roleId}`, data });
-    // El backend aún espera userId, roleId en la URL y fechas en el body
-    return this.http.post<UserRoles>(`${this.apiUrl}/user/${userId}/role/${roleId}`, data);
+  create(user_id: number, role_id: number, data: { startAt: string; endAt: string }): Observable<UserRoles> {
+    console.log('Enviando solicitud POST:', { url: `${this.apiUrl}/user/${user_id}/role/${role_id}`, data });
+    // El backend aún espera user_id, role_id en la URL y fechas en el body
+    return this.http.post<UserRoles>(`${this.apiUrl}/user/${user_id}/role/${role_id}`, data);
   }
 
   update(theUserRole: UserRoles): Observable<UserRoles> {
@@ -29,8 +29,8 @@ export class UserRoleService {
     const payload = {
       startAt: new Date(theUserRole.startAt).toISOString().split('T')[0],
       endAt: new Date(theUserRole.endAt).toISOString().split('T')[0],
-      userId: theUserRole.userId,
-      roleId: theUserRole.roleId
+      user_id: theUserRole.user_id,
+      role_id: theUserRole.role_id
     };
     return this.http.put<UserRoles>(`${this.apiUrl}/${theUserRole.id}`, payload);
   }
@@ -39,11 +39,11 @@ export class UserRoleService {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 
-  getRolesByUserId(userId: number): Observable<UserRoles[]> {
-    return this.http.get<UserRoles[]>(`${this.apiUrl}/user/${userId}`);
+  getRolesByuser_id(user_id: number): Observable<UserRoles[]> {
+    return this.http.get<UserRoles[]>(`${this.apiUrl}/user/${user_id}`);
   }
 
-  getUsersByRoleId(roleId: number): Observable<UserRoles[]> {
-    return this.http.get<UserRoles[]>(`${this.apiUrl}/role/${roleId}`);
+  getUsersByrole_id(role_id: number): Observable<UserRoles[]> {
+    return this.http.get<UserRoles[]>(`${this.apiUrl}/role/${role_id}`);
   }
 }
