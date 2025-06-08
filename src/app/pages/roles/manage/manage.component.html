@@ -101,27 +101,26 @@
                                 <div class="col-9">
                                     <button
                                         type="button"
-                                        class="btn btn-primary btn-block"
-                                        (click)="back()"
-                                        *ngIf="mode == 1"
-                                    >
-                                        Return
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="btn btn-success btn-block"
+                                        class="btn btn-success"
                                         (click)="create()"
                                         *ngIf="mode == 2"
                                     >
-                                        Create
+                                        Crear
                                     </button>
                                     <button
                                         type="button"
-                                        class="btn btn-warning btn-block"
+                                        class="btn btn-warning"
                                         (click)="update()"
                                         *ngIf="mode == 3"
                                     >
-                                        Update
+                                        Actualizar
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn btn-primary"
+                                        (click)="back()"
+                                    >
+                                        Volver
                                     </button>
                                 </div>
                             </div>
