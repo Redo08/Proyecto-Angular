@@ -1,0 +1,158 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header bg-transparent">
+          <h3 class="mb-0" *ngIf="!profileExists">Create Profile for {{user.name || 'User'}}</h3>
+          <h3 class="mb-0" *ngIf="profileExists">Manage Profile for {{user.name || 'User'}}</h3>
+        </div>
+        <div class="card-body">
+          <form class="form" [formGroup]="theFormGroup">
+            <div class="card-body container">
+
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">ID</div>
+                <div class="col-9">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="id"
+                    disabled
+                  />
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">User ID</div>
+                <div class="col-9">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="userId"
+                    disabled
+                  />
+                </div>
+              </div>
+
+              <div class="row mb-3" *ngIf="user.name">
+                <div class="col-3 d-flex align-items-center">Name FBC</div>
+                <div class="col-9">
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="user.name"
+                    disabled
+                  />
+                </div>
+              </div>
+
+              <div class="row mb-3" *ngIf="user.email">
+                <div class="col-3 d-flex align-items-center">Email FBC</div>
+                <div class="col-9">
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="user.email"
+                    disabled
+                  />
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">Phone</div>
+                <div class="col-9">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="phone"
+                  />
+                  <div
+                    *ngIf="
+                      getTheFormGroup.phone.errors &&
+                      (getTheFormGroup.phone.dirty ||
+                        getTheFormGroup.phone.touched ||
+                        trySend)
+                    "
+                  >
+                    <strong
+                      *ngIf="getTheFormGroup.phone.errors.required"
+                      class="msnError"
+                      >Required</strong
+                    >
+                    <strong
+                      *ngIf="getTheFormGroup.phone.errors.pattern"
+                      class="msnError"
+                      >Invalid phone number (7-15 digits)</strong
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">Photo</div>
+                <div class="col-9">
+                    <!--  Mostrar la imagen si existe -->
+                  <div class="mb-2" *ngIf="profile.photo">
+                    <img [src]="'http://127.0.0.1:5000/api/profiles/uploaded-photos/' + profile.photo" 
+                        alt="Profile Photo" 
+                        class="img-thumbnail" 
+                        style="max-width: 150px; max-height: 150px; border-radius: 8px;">
+                  </div>
+                  <input
+                    type="file"
+                    class="form-control"
+                    (change)="onFileSelected($event)"
+                    accept="image/*"
+                  />
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-12 text-center mt-4">
+                <button
+                  type="button"
+                  class="btn btn-primary me-2"
+                  (click)="back()"
+                >
+                  Return
+                </button>
+
+                <button
+                  type="button"
+                  class="btn btn-success me-2"
+                  (click)="create()"
+                  *ngIf="!profileExists"
+                  [disabled]="theFormGroup.invalid && trySend"
+                >
+                  Create
+                </button>
+
+                <ng-container *ngIf="profileExists">
+                  <button
+                    type="button"
+                    class="btn btn-warning me-2"
+                    (click)="update()"
+                    [disabled]="theFormGroup.invalid && trySend"
+                  >
+                    Update
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="deleteProfile()"
+                  >
+                    Delete
+                  </button>
+                </ng-container>
+
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

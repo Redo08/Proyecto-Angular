@@ -15,6 +15,7 @@ import { ComponentsModule } from './components/components.module';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AuthenticatedGuard } from './guardians/authenticated.guard';
 import { NoAuthenticatedGuard } from './guardians/no-authenticated.guard';
+import { ProfileModule } from './pages/profile/profile.module';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { NoAuthenticatedGuard } from './guardians/no-authenticated.guard';
     ComponentsModule,
     NgbModule,
     RouterModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ProfileModule
   ],
   declarations: [
     AppComponent,
