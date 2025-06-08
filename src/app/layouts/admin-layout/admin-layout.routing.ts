@@ -6,6 +6,7 @@ import { MapsComponent } from '../../pages/maps/maps.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { TablesComponent } from '../../pages/tables/tables.component';
 import { AuthenticatedGuard } from 'src/app/guardians/authenticated.guard';
+import { ManageComponent } from 'src/app/pages/profile/manage/manage.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -32,5 +33,10 @@ export const AdminLayoutRoutes: Routes = [
                 loadChildren: () => import('src/app/pages/users/users.module').then(m => m.UsersModule)
             }
         ]
+    },
+    {
+        path:'users/:userId/profile',
+        canActivate: [AuthenticatedGuard],
+        component: ManageComponent
     }
 ];
