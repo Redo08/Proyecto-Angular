@@ -27,8 +27,8 @@ export class UserRoleService {
   update(theUserRole: UserRoles): Observable<UserRoles> {
     // Asegurarse de que las fechas estén en formato de string si el backend lo requiere
     const payload = {
-      startAt: new Date(theUserRole.startAt).toISOString().split('T')[0],
-      endAt: new Date(theUserRole.endAt).toISOString().split('T')[0],
+      startAt: theUserRole.startAt,
+      endAt: theUserRole.endAt,
       user_id: theUserRole.user_id,
       role_id: theUserRole.role_id
     };

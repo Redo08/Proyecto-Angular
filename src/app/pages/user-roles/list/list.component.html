@@ -40,7 +40,7 @@
                     <td>{{ userRole.endAt ? (userRole.endAt | date:'yyyy-MM-dd') : 'Sin definir' }}</td>                  
                   <td>
                     <button class="btn btn-secondary btn-sm" (click)="view(userRole.id)">Ver</button>
-                    <button class="btn btn-primary" (click)="edit(userRole.id)">Actualizar</button>
+                    <button class="btn btn-primary" (click)="update(userRole.id)">Actualizar</button>
                     <button class="btn btn-danger btn-sm" (click)="delete(userRole.id)">Eliminar</button>
                   </td>
                 </tr>
