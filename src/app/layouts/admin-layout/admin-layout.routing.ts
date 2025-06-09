@@ -59,5 +59,9 @@ export const AdminLayoutRoutes: Routes = [
             }
         ]
     },
+    {
+        path: 'address', // Esta es la ruta base para todo el módulo Address
+        loadChildren: () => import('src/app/pages/address/address.module').then(m => m.AddressModule)
+    }
 
 ];

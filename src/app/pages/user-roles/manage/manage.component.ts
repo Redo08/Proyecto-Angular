@@ -87,6 +87,22 @@ export class ManageComponent implements OnInit {
     return dateTime.replace('T', ' ') + ':00';
   }
 
+  formatDateFromBackend(dateStr: string): string {
+    if (!dateStr) return '';
+    const date = new Date(dateStr); // Parsear "Sun, 08 Jun 2025 14:30:00 GMT"
+    if (isNaN(date.getTime())) {
+      console.error('Fecha inválida recibida:', dateStr);
+      return ''; // Retornar vacío si no se puede parsear
+    }
+    // Formatear a yyyy-MM-ddThh:mm
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Meses van de 0-11
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
+
   loadUsers(): void {
     this.userService.list().subscribe({
       next: (users) => {
@@ -113,8 +129,10 @@ export class ManageComponent implements OnInit {
     this.userRoleService.view(id.toString()).subscribe({
       next: (userRole) => {
         this.userRole = userRole;
-        const startAtFormatted = userRole.startAt ? userRole.startAt.replace(' ', 'T').slice(0, 16) : '';
-        const endAtFormatted = userRole.endAt ? userRole.endAt.replace(' ', 'T').slice(0, 16) : '';
+        console.log('Datos recibidos de getUserRole:', userRole);
+        const startAtFormatted = userRole.startAt ? this.formatDateFromBackend(userRole.startAt) : '';
+        const endAtFormatted = userRole.endAt ?this.formatDateFromBackend(userRole.endAt) : '';
+        console.log('Fechas formateadas - startAt:', startAtFormatted, 'endAt:', endAtFormatted); // Log para verificar
         this.userRoleForm.patchValue({
           user_id: userRole.user_id,
           role_id: userRole.role_id,

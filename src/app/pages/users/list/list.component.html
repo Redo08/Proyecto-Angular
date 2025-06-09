@@ -33,6 +33,7 @@
                       <button class="btn btn-primary" (click)="edit(user.id)">Update</button>
                       <button class="btn btn-danger" (click)="delete(user.id)">Delete</button>
                       <button class="btn btn-info btn-sm" [routerLink]="['/users', user.id, 'profile']">Profile</button>
+                      <button class="btn btn-warning btn-sm" (click)="manageAddress(user.id)">Address</button>
                     </td>
                 </tr>
             </table>
