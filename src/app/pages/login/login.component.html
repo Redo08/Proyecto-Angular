@@ -15,7 +15,6 @@
     </svg>
   </div>
 </div>
-<!-- Page content -->
 <div class="container mt--8 pb-5">
   <div class="row justify-content-center">
     <div class="col-lg-5 col-md-7">
@@ -27,23 +26,19 @@
               <span class="btn-inner--icon"><img src="../assets/img/icons/common/github.svg"></span>
               <span class="btn-inner--text">Github</span>
             </a>
-            <a href="javascript:void(0)" class="btn btn-neutral btn-icon">
-              <span class="btn-inner--icon"><img src="../assets/img/icons/common/google.svg"></span>
-              <span class="btn-inner--text">Google</span>
-            </a>
+            <div id="google-button-container" class="d-inline-block"></div>
           </div>
         </div>
         <div class="card-body px-lg-5 py-lg-5">
           <div class="text-center text-muted mb-4">
             <small>Or sign in with credentials</small>
           </div>
-          <form role="form">
-            <div class="form-group mb-3">
+          <form role="form" (ngSubmit)="login()"> <div class="form-group mb-3">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                 </div>
-                <input class="form-control" placeholder="Email" type="email" [(ngModel)]="user.email"> <!-- Cambiar por FormControl Name-->
+                <input class="form-control" placeholder="Email" type="email" name="email" [(ngModel)]="user.email">
               </div>
             </div>
             <div class="form-group">
@@ -51,7 +46,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                 </div>
-                <input class="form-control" placeholder="Password" type="password" [(ngModel)]="user.password"> <!-- Cambiar por formControlName-->
+                <input class="form-control" placeholder="Password" type="password" name="password" [(ngModel)]="user.password">
               </div>
             </div>
             <div class="custom-control custom-control-alternative custom-checkbox">
@@ -61,8 +56,7 @@
               </label>
             </div>
             <div class="text-center">
-              <button type="button" class="btn btn-primary my-4" (click)="login()">Sign in</button>
-            </div>
+              <button type="submit" class="btn btn-primary my-4">Sign in</button> </div>
           </form>
         </div>
       </div>

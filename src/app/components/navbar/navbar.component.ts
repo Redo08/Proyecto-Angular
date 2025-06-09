@@ -2,10 +2,9 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/user.model';
 import { SecurityService } from 'src/app/services/security.service';
 import { Subscription } from 'rxjs';
-import { WebSocketService } from 'src/app/services/web-socket-service.service';
+import { loginUser } from 'src/app/models/login-user.model';
 
 @Component({
   selector: 'app-navbar',
@@ -16,8 +15,9 @@ export class NavbarComponent implements OnInit {
   public focus;
   public listTitles: any[];
   public location: Location;
-  user: User;
+  user: loginUser;
   subscription: Subscription;
+
   constructor(
     location: Location,
     private element: ElementRef,
@@ -26,9 +26,10 @@ export class NavbarComponent implements OnInit {
     // private webSocketService: WebSocketService
   ) {
     this.location = location;
-    // this.subscription = this.securityService.getUser().subscribe(data => {
-    //   this.user = data;
-    // })
+    this.user = new loginUser();
+    this.subscription = this.securityService.getUser().subscribe(data => {
+      this.user = data;
+    })
   }
 
   ngOnInit() {
