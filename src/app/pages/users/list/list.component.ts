@@ -35,6 +35,11 @@ export class ListComponent implements OnInit {
   edit(id: number) {
     this.router.navigate([`/users/update/${id}`])
   }
+  manageAddress(userId: number) {
+    // La ruta debe coincidir con la que definiremos en el AddressRoutingModule
+    // que esperamos sea algo como '/dashboard/address/user/:userId' o similar
+    this.router.navigate([`/address/user/${userId}`]); 
+  }
   
   delete(id: number) {
     console.log("Delete user with id:", id);
