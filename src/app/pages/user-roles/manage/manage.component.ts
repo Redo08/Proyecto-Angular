@@ -20,7 +20,7 @@ export class ManageComponent implements OnInit {
   users: User[] = [];
   roles: Role[] = [];
   trySend: boolean = false;
-  userRole: UserRoles = { id: 0, user_id: 0, role_id: 0, startAt: '', endAt: ''};
+  userRole: UserRoles = { id: "", user_id: 0, role_id: 0, startAt: '', endAt: ''};
 
   constructor(
     private fb: FormBuilder,
@@ -51,7 +51,7 @@ export class ManageComponent implements OnInit {
     this.configFormGroup();
 
     if (this.route.snapshot.params['id']) {
-      this.userRole.id = Number(this.route.snapshot.params['id']);
+      this.userRole.id = this.route.snapshot.params['id'];
       this.getUserRole(this.userRole.id);
     }
   }
@@ -109,7 +109,7 @@ export class ManageComponent implements OnInit {
     });
   }
 
-  getUserRole(id: number): void {
+  getUserRole(id: string): void {
     this.userRoleService.view(id.toString()).subscribe({
       next: (userRole) => {
         this.userRole = userRole;

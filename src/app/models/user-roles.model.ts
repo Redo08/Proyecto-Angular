@@ -2,7 +2,7 @@ import { Role } from "./role.model";
 import { User } from "./user.model";
 
 export class UserRoles {
-    id?: number;
+    id?: string;
     startAt?: string;
     endAt?: string;   
     user_id?: number;
