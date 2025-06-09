@@ -40,6 +40,11 @@ export const AdminLayoutRoutes: Routes = [
         component: ManageComponent
     },
     {
+        path: 'users/:user_id/sessions',
+        canActivate: [AuthenticatedGuard],
+        loadChildren: () => import('src/app/pages/sessions/sessions.module').then(m => m.SessionsModule)
+    },
+    {
         path: 'roles',
         canActivate: [AuthenticatedGuard], // Toca poner autenticación
         children: [

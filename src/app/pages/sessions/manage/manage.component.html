@@ -1,0 +1,139 @@
+<div class="header bg-gradient-info pb-8 pt-5 pt-md-8"></div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+          <h2 class="mb-0 display-4">
+            {{ isEditMode ? (sessionId ? 'Editar Sesión' : 'Crear Sesión') : 'Detalles de Sesión' }}
+            <span *ngIf="associatedUser"> (Usuario: {{user_idFromRoute}})</span>
+          </h2>
+          <div>
+            <button type="button" class="btn btn-secondary btn-circle-plus" (click)="cancel()">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <form class="form" [formGroup]="theFormGroup" (ngSubmit)="saveSession()">
+            <div class="card-body container">
+
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">ID de Sesión</div>
+                <div class="col-9">
+                  <input type="text" class="form-control" formControlName="id" readonly>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">ID de Usuario</div>
+                <div class="col-9">
+                    <input
+                        type="text"
+                        class="form-control"
+                        formControlName="user_id"
+                        [readonly]="true"
+                        [disabled]="true"
+                     >
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">Token</div>
+                <div class="col-9">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="token"
+                    [ngClass]="{ 'is-invalid': trySend && getTheFormGroup.token?.invalid }"
+                  >
+                  <div *ngIf="getTheFormGroup.token?.errors && (getTheFormGroup.token?.dirty || getTheFormGroup.token?.touched || trySend)"
+                    class="invalid-feedback">
+                    <strong *ngIf="getTheFormGroup.token?.errors?.required">El token es requerido.</strong>
+                    <strong *ngIf="getTheFormGroup.token?.errors?.maxlength">El token no debe exceder 255 caracteres.</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">Expiración</div>
+                <div class="col-9">
+                  <input
+                    type="datetime-local"
+                    class="form-control"
+                    formControlName="expiration"
+                    [ngClass]="{ 'is-invalid': trySend && getTheFormGroup.expiration?.invalid }"
+                  >
+                  <div *ngIf="getTheFormGroup.expiration?.errors && (getTheFormGroup.expiration?.dirty || getTheFormGroup.expiration?.touched || trySend)"
+                    class="invalid-feedback">
+                    <strong *ngIf="getTheFormGroup.expiration?.errors?.required">La fecha de expiración es requerida.</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">Código FA</div>
+                <div class="col-9">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="FACode"
+                    [ngClass]="{ 'is-invalid': trySend && getTheFormGroup.FACode?.invalid }"
+                  >
+                  <div *ngIf="getTheFormGroup.FACode?.errors && (getTheFormGroup.FACode?.dirty || getTheFormGroup.FACode?.touched || trySend)"
+                    class="invalid-feedback">
+                    <strong *ngIf="getTheFormGroup.FACode?.errors?.maxlength">El código FA no debe exceder 10 caracteres.</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">Estado</div>
+                <div class="col-9">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="state"
+                    [ngClass]="{ 'is-invalid': trySend && getTheFormGroup.state?.invalid }"
+                  >
+                  <div *ngIf="getTheFormGroup.state?.errors && (getTheFormGroup.state?.dirty || getTheFormGroup.state?.touched || trySend)"
+                    class="invalid-feedback">
+                    <strong *ngIf="getTheFormGroup.state?.errors?.required">El estado es requerido.</strong>
+                    <strong *ngIf="getTheFormGroup.state?.errors?.maxlength">El estado no debe exceder 20 caracteres.</strong>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row mt-4 text-center">
+              <div class="col-12">
+                <button
+                  type="submit"
+                  class="btn btn-success me-2"
+                  *ngIf="!sessionId && isEditMode"
+                  [disabled]="theFormGroup.invalid && trySend"
+                >
+                  Crear Sesión
+                </button>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary me-2"
+                  *ngIf="sessionId && isEditMode"
+                  [disabled]="theFormGroup.invalid && trySend"
+                >
+                  Actualizar Sesión
+                </button>
+
+                <ng-container *ngIf="isViewMode">
+                  </ng-container>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
