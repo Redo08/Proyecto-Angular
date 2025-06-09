@@ -1,0 +1,133 @@
+<div class="header bg-gradient-info pb-8 pt-5 pt-md-8"></div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+          <h2 class="mb-0 display-4">
+            {{ mode === 1 ? 'Detalles de Permiso' : (mode === 2 ? 'Crear Permiso' : 'Editar Permiso') }}
+          </h2>
+          <div>
+            <button type="button" class="btn btn-secondary btn-circle-plus" (click)="back()">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <form class="form" [formGroup]="theFormGroup" (ngSubmit)="submitForm()">
+            <div class="card-body container">
+
+              <div class="row mb-3" *ngIf="mode === 1 || mode === 3">
+                <div class="col-3 d-flex align-items-center">ID de Permiso</div>
+                <div class="col-9">
+                  <input type="text" class="form-control" formControlName="id" readonly>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">URL</div>
+                <div class="col-9">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="url"
+                    [ngClass]="{ 'is-invalid': trySend && getTheFormGroup.url?.invalid }"
+                  >
+                  <div *ngIf="getTheFormGroup.url?.errors && (getTheFormGroup.url?.dirty || getTheFormGroup.url?.touched || trySend)"
+                    class="invalid-feedback">
+                    <strong *ngIf="getTheFormGroup.url?.errors?.required">La URL es requerida.</strong>
+                    <strong *ngIf="getTheFormGroup.url?.errors?.maxlength">La URL no debe exceder 255 caracteres.</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">Método</div>
+                <div class="col-9">
+                  <select
+                    class="form-control"
+                    formControlName="method"
+                    [ngClass]="{ 'is-invalid': trySend && getTheFormGroup.method?.invalid }"
+                  >
+                    <option [value]="''" disabled selected>Seleccione un método</option>
+                    <option *ngFor="let method of methods" [value]="method">{{ method }}</option>
+                  </select>
+                  <div *ngIf="getTheFormGroup.method?.errors && (getTheFormGroup.method?.dirty || getTheFormGroup.method?.touched || trySend)"
+                    class="invalid-feedback">
+                    <strong *ngIf="getTheFormGroup.method?.errors?.required">El método es requerido.</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">Entidad</div>
+                <div class="col-9">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="entity"
+                    [ngClass]="{ 'is-invalid': trySend && getTheFormGroup.entity?.invalid }"
+                    list="entityOptions"
+                  >
+                  <datalist id="entityOptions">
+                    <option *ngFor="let entity of entities" [value]="entity"></option>
+                  </datalist>
+                  <div *ngIf="getTheFormGroup.entity?.errors && (getTheFormGroup.entity?.dirty || getTheFormGroup.entity?.touched || trySend)"
+                    class="invalid-feedback">
+                    <strong *ngIf="getTheFormGroup.entity?.errors?.required">La entidad es requerida.</strong>
+                    <strong *ngIf="getTheFormGroup.entity?.errors?.maxlength">La entidad no debe exceder 100 caracteres.</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-3" *ngIf="mode === 1 || mode === 3">
+                <div class="col-3 d-flex align-items-center">Creado en</div>
+                <div class="col-9">
+                  <input type="text" class="form-control" formControlName="created_at" readonly>
+                </div>
+              </div>
+              <div class="row mb-3" *ngIf="mode === 1 || mode === 3">
+                <div class="col-3 d-flex align-items-center">Actualizado en</div>
+                <div class="col-9">
+                  <input type="text" class="form-control" formControlName="updated_at" readonly>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row mt-4 text-center">
+              <div class="col-12">
+                <button
+                  type="submit"
+                  class="btn btn-success me-2"
+                  *ngIf="mode === 2"
+                  [disabled]="theFormGroup.invalid && trySend"
+                >
+                  Crear Permiso
+                </button>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary me-2"
+                  *ngIf="mode === 3"
+                  [disabled]="theFormGroup.invalid && trySend"
+                >
+                  Actualizar Permiso
+                </button>
+
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  (click)="back()"
+                >
+                  Volver
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

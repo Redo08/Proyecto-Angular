@@ -65,7 +65,13 @@ export const AdminLayoutRoutes: Routes = [
         ]
     },
     {
+        path: 'permissions',
+        canActivate: [AuthenticatedGuard],
+        loadChildren: () => import('src/app/pages/permissions/permissions.module').then(m => m.PermissionsModule)
+    },
+    {
         path: 'address', // Esta es la ruta base para todo el módulo Address
+        canActivate: [AuthenticatedGuard],
         loadChildren: () => import('src/app/pages/address/address.module').then(m => m.AddressModule)
     }
 
