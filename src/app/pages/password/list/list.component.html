@@ -1,4 +1,4 @@
-<div class="header bg-gradient-info pb-8 pt-5 pt-md-8"></div>
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
 <div class="container-fluid mt--7">
   <div class="row">
     <div class="col">
@@ -32,14 +32,14 @@
                 <td>{{ password.startAt | date:'medium' }}</td>
                 <td>{{ password.endAt | date:'medium' }}</td>
                 <td>
-                  <button type="button" class="btn btn-info btn-sm me-2" (click)="viewPassword(password.id)">
-                    <i class="fas fa-eye"></i>
+                  <button class="btn btn-secundary" (click)="viewPassword(password.id)">
+                    View
                   </button>
-                  <button type="button" class="btn btn-primary btn-sm me-2" (click)="editPassword(password.id)">
-                    <i class="fas fa-edit"></i>
+                  <button  class="btn btn-primary " (click)="editPassword(password.id)">
+                    Update
                   </button>
-                  <button type="button" class="btn btn-danger btn-sm" (click)="deletePassword(password.id)">
-                    <i class="fas fa-trash-alt"></i>
+                  <button class="btn btn-danger" (click)="deletePassword(password.id)">
+                    Delete
                   </button>
                 </td>
               </tr>

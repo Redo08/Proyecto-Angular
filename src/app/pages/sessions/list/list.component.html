@@ -1,18 +1,19 @@
-<div class="header bg-gradient-info pb-8 pt-5 pt-md-8"></div>
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
 <div class="container-fluid mt--7">
   <div class="row">
     <div class="col">
       <div class="card shadow">
         <div class="card-header border-0 d-flex justify-content-between align-items-center">
-          <h3 class="mb-0">Session Management <span *ngIf="user_id">for User {{user_id}}</span></h3>
+          <h3 class="mb-0">Gestión de Sesiones <span *ngIf="user_id">para Usuario {{user_id}}</span></h3>
           <div class="d-flex align-items-center">
-            <button type="button" class="btn btn-secondary btn-circle-plus mr-3" (click)="goBackToUsers()" title="Back to Users">
-              <i class="fas fa-arrow-left"></i>
+            <button type="button" class="btn btn-secondary btn-circle-plus mr-3" (click)="goBackToUsers()">
+              <i class="fas fa-arrow-left"></i> 
             </button>
-            <button type="button" class="btn btn-success btn-circle-plus" (click)="createNewSessionForUser()" title="Create Session">
-              <i class="fas fa-plus"></i>
+            <button type="button" class="btn btn-primary" (click)="createNewSessionForUser()">
+              <i class="fas fa-plus"></i> Nueva Sesión
             </button>
           </div>
+
         </div>
         <div class="table-responsive">
           <table class="table align-items-center table-flush">
@@ -20,10 +21,10 @@
               <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Token</th>
-                <th scope="col">Expiration</th>
-                <th scope="col">FA Code</th>
-                <th scope="col">State</th>
-                <th scope="col">Actions</th>
+                <th scope="col">Expiración</th>
+                <th scope="col">Código FA</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -34,19 +35,19 @@
                 <td>{{ session.FACode || 'N/A' }}</td>
                 <td>{{ session.state }}</td>
                 <td>
-                  <button type="button" class="btn btn-sm btn-info" (click)="viewSession(session.id!)" title="View">
-                    <i class="fas fa-eye"></i> View
+                  <button class="btn btn-secondary" (click)="viewSession(session.id!)">
+                     View
                   </button>
-                  <button type="button" class="btn btn-sm btn-primary ml-2" (click)="editSession(session.id!)" title="Edit">
-                    <i class="fas fa-edit"></i> Edit
+                  <button class="btn btn-primary" (click)="editSession(session.id!)">
+                     Update
                   </button>
-                  <button type="button" class="btn btn-sm btn-danger ml-2" (click)="deleteSession(session.id!)" title="Delete">
-                    <i class="fas fa-trash-alt"></i> Delete
+                  <button class="btn btn-danger" (click)="deleteSession(session.id!)">
+                    Delete
                   </button>
                 </td>
               </tr>
               <tr *ngIf="sessions.length === 0">
-                <td colspan="6" class="text-center">No sessions to display.</td>
+                <td colspan="7" class="text-center">No hay sesiones para mostrar.</td>
               </tr>
             </tbody>
           </table>

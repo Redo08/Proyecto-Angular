@@ -1,20 +1,23 @@
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
-<!-- Contenido de la página -->
 <div class="container-fluid mt--7">
-  <!-- Formulario -->
   <div class="row">
     <div class="col">
       <div class="card shadow">
-        <div class="card-header bg-transparent">
-          <h3 class="mb-0" *ngIf="mode === 1">Ver Asignación</h3>
-          <h3 class="mb-0" *ngIf="mode === 2">Asignar Nuevo Rol</h3>
-          <h3 class="mb-0" *ngIf="mode === 3">Actualizar Asignación</h3>
+        <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+          <h2 class="mb-0 display-4">
+            {{ mode === 1 ? 'View Assignment' : (mode === 2 ? 'Assign New Role' : 'Update Assignment') }}
+          </h2>
+          <div>
+            <button type="button" class="btn btn-secondary btn-circle-plus" (click)="back()">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+          </div>
         </div>
         <div class="card-body">
           <form class="form" [formGroup]="userRoleForm">
             <div class="card-body container">
-              <div class="row">
-                <div class="col-3">Usuario</div>
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">User</div>
                 <div class="col-9">
                   <select
                     id="user_id"
@@ -22,35 +25,33 @@
                     formControlName="user_id"
                     [disabled]="mode === 1"
                   >
-                    <option [ngValue]="null" disabled>Seleccione un usuario...</option>
+                    <option [ngValue]="null" disabled>Select a user...</option>
                     <option *ngFor="let user of users" [ngValue]="user.id">{{ user.name }} ({{ user.email }})</option>
                   </select>
                   <div *ngIf="f.user_id.invalid && (f.user_id.dirty || f.user_id.touched || trySend)">
-                    <strong *ngIf="f.user_id.errors?.required" class="msnError">El usuario es requerido.</strong>
+                    <strong *ngIf="f.user_id.errors?.required" class="msnError">User is required.</strong>
                   </div>
                 </div>
               </div>
-              <br />
-              <div class="row">
-                <div class="col-3">Rol</div>
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">Role</div>
                 <div class="col-9">
                   <select
                     id="role_id"
                     class="form-control"
                     formControlName="role_id"
-                    [disabled]="mode === 1 || mode === 3"
+                    [disabled]="mode === 1"
                   >
-                    <option [ngValue]="null" disabled>Seleccione un rol...</option>
+                    <option [ngValue]="null" disabled>Select a role...</option>
                     <option *ngFor="let role of roles" [ngValue]="role.id">{{ role.name }}</option>
                   </select>
                   <div *ngIf="f.role_id.invalid && (f.role_id.dirty || f.role_id.touched || trySend)">
-                    <strong *ngIf="f.role_id.errors?.required" class="msnError">El rol es requerido.</strong>
+                    <strong *ngIf="f.role_id.errors?.required" class="msnError">Role is required.</strong>
                   </div>
                 </div>
               </div>
-              <br />
-              <div class="row">
-                <div class="col-3">Fecha de Inicio</div>
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">Start Date</div>
                 <div class="col-9">
                   <input
                     id="startAt"
@@ -60,13 +61,12 @@
                     [disabled]="mode === 1"
                   />
                   <div *ngIf="f.startAt.invalid && (f.startAt.dirty || f.startAt.touched || trySend)">
-                    <strong *ngIf="f.startAt.errors?.required" class="msnError">La fecha de inicio es requerida.</strong>
+                    <strong *ngIf="f.startAt.errors?.required" class="msnError">Start date is required.</strong>
                   </div>
                 </div>
               </div>
-              <br />
-              <div class="row">
-                <div class="col-3">Fecha de Fin</div>
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">End Date</div>
                 <div class="col-9">
                   <input
                     id="endAt"
@@ -77,34 +77,25 @@
                   />
                 </div>
               </div>
-              <br />
-              <div class="row">
-                <div class="col-3"></div>
-                <div class="col-9">
+              <div class="row mt-4 text-center">
+                <div class="col-12">
                   <button
                     type="button"
-                    class="btn btn-primary btn-block"
-                    (click)="back()"
-                    *ngIf="mode === 1"
-                  >
-                    Regresar
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-success btn-block"
+                    class="btn btn-success me-2"
                     (click)="create()"
                     *ngIf="mode === 2"
                   >
-                    Asignar Rol
+                    Assign Role
                   </button>
                   <button
                     type="button"
-                    class="btn btn-warning btn-block"
+                    class="btn btn-warning me-2"
                     (click)="update()"
                     *ngIf="mode === 3"
                   >
-                    Actualizar
+                    Update
                   </button>
+                  <!-- Return button removed -->
                 </div>
               </div>
             </div>
