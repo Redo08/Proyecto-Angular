@@ -32,8 +32,10 @@
                       <button class="btn btn-secondary" (click)="view(user.id)">View</button>
                       <button class="btn btn-primary" (click)="edit(user.id)">Update</button>
                       <button class="btn btn-danger" (click)="delete(user.id)">Delete</button>
-                      <button class="btn btn-info btn-sm" [routerLink]="['/users', user.id, 'profile']">Profile</button>
+
                       <button class="btn btn-warning btn-sm" (click)="manageAddress(user.id)">Address</button>
+                      <button class="btn btn-info" [routerLink]="['/users', user.id, 'profile']">Profile</button>
+                      <button class="btn btn-info" [routerLink]="['/users', user.id, 'sessions']">Sessions</button>
                     </td>
                 </tr>
             </table>
