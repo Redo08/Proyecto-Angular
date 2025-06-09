@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { User } from '../models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { loginUser } from '../models/login-user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SecurityService {
 
-  theUser = new BehaviorSubject<User>(new User); // Definición global
+  theUser = new BehaviorSubject<loginUser>(new loginUser); // Definición global
   constructor(private http: HttpClient) { 
     this.verifyActualSession()
   }
@@ -20,20 +20,20 @@ export class SecurityService {
   * @param infoUsuario JSON con la información de correo y contraseña
   * @returns Respuesta HTTP la cual indica si el usuario tiene permiso de acceso
   */
-  login(user: User): Observable<any> {
+  login(user: loginUser): Observable<any> {
     return this.http.post<any>(`${environment.url_ms_cinema}/login`, user); // Crear nuevo postman para seguridad
   }
   /*
   Guardar la información de usuario en el local storage
   */
   saveSession(dataSesion: any) {
-    let data: User = {
-      id: dataSesion["user"]["id"],
-      name: dataSesion["user"]["name"],
-      email: dataSesion["user"]["email"],
+    let data: loginUser = {
+      id: dataSesion["user"]["id"] || dataSesion["user"]?.id || dataSesion["user"]?.sub,
+      name: dataSesion["user"]["name"] || dataSesion["user"]?.name,
+      email: dataSesion["user"]["email"] || dataSesion["user"]?.email,
       password: "",
-      //role:dataSesion["user"]["role"],
-      token: dataSesion["token"]
+      token: dataSesion["token"],
+      picture: dataSesion["user"]?.picture || ""
     };
     localStorage.setItem('sesion', JSON.stringify(data));
     this.setUser(data);
@@ -43,7 +43,7 @@ export class SecurityService {
     * que acabó de validarse correctamente
     * @param user información del usuario logueado
   */
-  setUser(user: User) {
+  setUser(user: loginUser) {
     this.theUser.next(user);
   }
   /**
@@ -59,7 +59,7 @@ export class SecurityService {
     * que tiene la función activa y servirá
     * para acceder a la información del token
 */
-  public get activeUserSession(): User {
+  public get activeUserSession(): loginUser {
     return this.theUser.value;
   }
 
@@ -70,7 +70,13 @@ export class SecurityService {
   */
   logout() {
     localStorage.removeItem('sesion');
-    this.setUser(new User());
+    this.setUser(new loginUser());
+    // Si usas Google Sign-In, también puedes revocar el token de Google si quieres
+    if (window.google && window.google.accounts && window.google.accounts.id) {
+        window.google.accounts.id.disableAutoSelect(); // Evita el auto-login en el siguiente intento
+        // No hay un método directo para "logout" de Google Identity Services en el frontend
+        // pero deshabilitar auto-select y limpiar tu sesión local es suficiente.
+    }
   }
   /**
   * Permite verificar si actualmente en el local storage

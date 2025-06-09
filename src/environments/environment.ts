@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   url_ms_cinema: "https://12d2ce36-128d-4c8b-9375-9a5a7a5350e6.mock.pstmn.io",
   url_ms_socket: "http://127.0.0.1:5000",   // La url Del backend
+  googleClientId: "976062190369-v58bmqc43oh7m3cbeodtb9bgf16j4gsp.apps.googleusercontent.com"
   // url_ms_security: "https://9be12636-1f00-49ee-a926-2581b6b12bd7.mock.pstmn.io"
 };
 
