@@ -64,8 +64,7 @@ export class ManageComponent implements OnInit {
       content: ['', [Validators.required, Validators.maxLength(255)]],
       startAt: ['', [Validators.required]], // <-- AHORA startAt ES REQUERIDO
       endAt: ['', [Validators.required]], // Opcional, para cuando la contraseña deja de ser válida
-      
-    });
+    }, { validators: this.dateRangeValidator });
   }
   applyFormModeRules(): void {  
     this.theFormGroup.get('id')?.disable();
@@ -139,6 +138,39 @@ export class ManageComponent implements OnInit {
   get getTheFormGroup() {
     return this.theFormGroup.controls;
   }
+
+  dateRangeValidator(group: FormGroup): { [key: string]: any } | null {
+    const startAtControl = group.get('startAt');
+    const endAtControl = group.get('endAt');
+
+    // Solo validar si ambos controles existen y tienen valores
+    if (startAtControl && endAtControl && startAtControl.value && endAtControl.value) {
+      const startAt = new Date(startAtControl.value);
+      const endAt = new Date(endAtControl.value);
+
+      if (endAt <= startAt) {
+        // Establecer el error en el control 'endAt' para que el mensaje aparezca junto a él
+        endAtControl.setErrors({ invalidDateRange: true });
+        return { invalidDateRange: true }; // Retorna el error a nivel de grupo
+      } else {
+        // Limpiar el error si la validación pasa (importante para cuando el usuario corrige)
+        if (endAtControl.hasError('invalidDateRange')) {
+          const errors = endAtControl.errors;
+          if (errors) {
+            delete errors['invalidDateRange'];
+            if (Object.keys(errors).length === 0) {
+              endAtControl.setErrors(null);
+            } else {
+              endAtControl.setErrors(errors);
+            }
+          }
+        }
+      }
+    }
+    // Si no hay valores en ambos o la validación pasa, no hay error
+    return null;
+  }
+
 
   savePassword(): void {
     this.trySend = true;

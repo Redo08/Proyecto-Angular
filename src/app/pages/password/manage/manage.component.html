@@ -68,13 +68,12 @@
                   <div *ngIf="getTheFormGroup.startAt?.errors && (getTheFormGroup.startAt?.dirty || getTheFormGroup.startAt?.touched || trySend)"
                     class="invalid-feedback">
                     <strong *ngIf="getTheFormGroup.startAt?.errors?.required">La fecha de inicio es requerida.</strong>
-                    <strong *ngIf="getTheFormGroup.startAt?.errors?.maxlength">La fecha de inicio no es válida.</strong>
                   </div>
                 </div>
               </div>
 
               <div class="row mb-3">
-                <div class="col-3 d-flex align-items-center">Fecha de Fin (Opcional)</div>
+                <div class="col-3 d-flex align-items-center">Fecha de Fin</div>
                 <div class="col-9">
                   <input
                     type="datetime-local"
@@ -85,6 +84,7 @@
                   <div *ngIf="getTheFormGroup.endAt?.errors && (getTheFormGroup.endAt?.dirty || getTheFormGroup.endAt?.touched || trySend)"
                     class="invalid-feedback">
                     <strong *ngIf="getTheFormGroup.endAt?.errors?.required">La fecha de fin es requerida.</strong>
+                    <strong *ngIf="theFormGroup.errors?.invalidDateRange && (getTheFormGroup.endAt?.dirty || getTheFormGroup.endAt?.touched || trySend)" class="msnError">La fecha de fin no puede ser anterior o igual a la fecha de inicio.</strong>
                   </div>
                 </div>
               </div>            
