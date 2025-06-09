@@ -466,7 +466,7 @@ export class ManageComponent implements OnInit {
       this.map.setView(this.mapOptions.center!, this.mapOptions.zoom);
     }
   }
-  // --- FIN CÓDIGO MAPA ---
+  // --- FIN CÓDIGO MAPA ---el 
 
  
 }
