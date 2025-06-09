@@ -46,6 +46,7 @@ export const AdminLayoutRoutes: Routes = [
     },
     {
         path: 'users/:userId/passwords', // Ruta para acceder a las contraseñas de un usuario específico
+        canActivate: [AuthenticatedGuard],
         loadChildren: () => import('src/app/pages/password/password.module').then(m => m.PasswordModule)
     },
     

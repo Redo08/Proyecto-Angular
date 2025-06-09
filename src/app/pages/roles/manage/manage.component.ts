@@ -24,9 +24,6 @@ export class ManageComponent implements OnInit {
   ) {
     this.trySend = false;
     this.rol = { id: 0 }; // Inicializar rol con valores por defecto
-    // Hacemos llamados al configFormGroup
-    this.configFormGroup();
-
    }
 
   ngOnInit(): void {
@@ -39,6 +36,7 @@ export class ManageComponent implements OnInit {
       this.mode = 3;
     }
 
+    this.configFormGroup();
     
     if (this.activatedRoute.snapshot.params.id) {
       this.rol.id = this.activatedRoute.snapshot.params.id;
