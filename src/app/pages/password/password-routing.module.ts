@@ -4,10 +4,19 @@ import { ListComponent } from './list/list.component';
 import { ManageComponent } from './manage/manage.component';
 
 const routes: Routes = [
-  { path: 'passwords/list/:userId', component: ListComponent }, // Para ver historial de un usuario
-  { path: 'passwords/create/:userId', component: ManageComponent }, // Para crear para un usuario
-  { path: 'passwords/edit/:passwordId', component:ManageComponent }, // Para editar una contraseña específica
-  
+   // Cuando la ruta completa sea '/users/:userId/passwords', se mostrará ListComponent
+  { path: '', redirectTo: 'list', pathMatch: 'full' },
+  {path: 'list',component: ListComponent, // Usa tu ListComponent
+     // Opcional: si quieres proteger estas rutas individualmente
+  }, 
+
+  // Para crear una contraseña: '/users/:userId/passwords/create'
+  { path: 'create', component: ManageComponent }, 
+
+  // Para editar una contraseña específica: '/users/:userId/passwords/:passwordId/edit'
+  { path: ':passwordId/view', component: ManageComponent },
+  // Ruta para editar una contraseña específica (ej: /users/:userId/passwords/:passwordId/edit)
+  { path: ':passwordId/edit', component: ManageComponent },
 
 ];
 

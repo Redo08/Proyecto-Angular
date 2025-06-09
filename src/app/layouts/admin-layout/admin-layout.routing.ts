@@ -45,6 +45,11 @@ export const AdminLayoutRoutes: Routes = [
         loadChildren: () => import('src/app/pages/sessions/sessions.module').then(m => m.SessionsModule)
     },
     {
+        path: 'users/:userId/passwords', // Ruta para acceder a las contraseñas de un usuario específico
+        loadChildren: () => import('src/app/pages/password/password.module').then(m => m.PasswordModule)
+    },
+    
+    {
         path: 'roles',
         canActivate: [AuthenticatedGuard], // Toca poner autenticación
         children: [
@@ -69,6 +74,7 @@ export const AdminLayoutRoutes: Routes = [
         canActivate: [AuthenticatedGuard],
         loadChildren: () => import('src/app/pages/permissions/permissions.module').then(m => m.PermissionsModule)
     },
+   
     {
         path: 'address', // Esta es la ruta base para todo el módulo Address
         canActivate: [AuthenticatedGuard],

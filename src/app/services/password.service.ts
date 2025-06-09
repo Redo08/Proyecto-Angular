@@ -8,7 +8,7 @@ import { Password } from '../models/password.model';
   providedIn: 'root'
 })
 export class PasswordService {
-  private apiUrl = `${environment.url_ms_socket}/passwords`;
+  private apiUrl = `${environment.url_ms_socket}/api/passwords`;
   constructor(private http:HttpClient) { }
  
   list(): Observable<Password[]> {
@@ -25,7 +25,7 @@ export class PasswordService {
       
   }
 
-  getCurrentPassword(userId: number): Observable<Password> {
+  view(userId: number): Observable<Password> {
     return this.http.get<Password>(`${this.apiUrl}/user/${userId}/current`)
     
   }

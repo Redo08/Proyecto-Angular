@@ -1,1 +1,123 @@
-<p>manage works!</p>
+<div class="header bg-gradient-info pb-8 pt-5 pt-md-8"></div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+          <h2 class="mb-0 display-4">
+            {{ isEditMode ? (passwordId ? 'Editar Contraseña' : 'Crear Contraseña') : 'Detalles de Contraseña' }}
+            <span *ngIf="associatedUser"> (Usuario: {{userIdFromRoute}})</span>
+          </h2>
+          <div>
+            <button type="button" class="btn btn-secondary btn-circle-plus" (click)="cancel()">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <form class="form" [formGroup]="theFormGroup" (ngSubmit)="savePassword()">
+            <div class="card-body container">
+
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">ID de Contraseña</div>
+                <div class="col-9">
+                  <input type="text" class="form-control" formControlName="id" readonly>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">ID de Usuario</div>
+                <div class="col-9">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="user_id"
+                    [readonly]="true"
+                    [disabled]="true"
+                   >
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">Contenido</div>
+                <div class="col-9">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="content"
+                    [ngClass]="{ 'is-invalid': trySend && getTheFormGroup.content?.invalid }"
+                  >
+                  <div *ngIf="getTheFormGroup.content?.errors && (getTheFormGroup.content?.dirty || getTheFormGroup.content?.touched || trySend)"
+                    class="invalid-feedback">
+                    <strong *ngIf="getTheFormGroup.content?.errors?.required">El contenido es requerido.</strong>
+                    <strong *ngIf="getTheFormGroup.content?.errors?.maxlength">El contenido no debe exceder 255 caracteres.</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">Fecha de Inicio</div>
+                <div class="col-9">
+                  <input
+                    type="datetime-local"
+                    class="form-control"
+                    formControlName="startAt"
+                    [ngClass]="{ 'is-invalid': trySend && getTheFormGroup.startAt?.invalid }"
+                  >
+                  <div *ngIf="getTheFormGroup.startAt?.errors && (getTheFormGroup.startAt?.dirty || getTheFormGroup.startAt?.touched || trySend)"
+                    class="invalid-feedback">
+                    <strong *ngIf="getTheFormGroup.startAt?.errors?.required">La fecha de inicio es requerida.</strong>
+                    <strong *ngIf="getTheFormGroup.startAt?.errors?.maxlength">La fecha de inicio no es válida.</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-3 d-flex align-items-center">Fecha de Fin (Opcional)</div>
+                <div class="col-9">
+                  <input
+                    type="datetime-local"
+                    class="form-control"
+                    formControlName="endAt"
+                    [ngClass]="{ 'is-invalid': trySend && getTheFormGroup.endAt?.invalid }"
+                  >
+                  <div *ngIf="getTheFormGroup.endAt?.errors && (getTheFormGroup.endAt?.dirty || getTheFormGroup.endAt?.touched || trySend)"
+                    class="invalid-feedback">
+                    <strong *ngIf="getTheFormGroup.endAt?.errors?.required">La fecha de fin es requerida.</strong>
+                  </div>
+                </div>
+              </div>            
+
+             
+
+            </div>
+
+            <div class="row mt-4 text-center">
+              <div class="col-12">
+                <button
+                  type="submit"
+                  class="btn btn-success me-2"
+                  *ngIf="isCreateMode" [disabled]="theFormGroup.invalid && trySend"
+                >
+                  Crear Contraseña
+                </button>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary me-2"
+                  *ngIf="isEditMode" [disabled]="theFormGroup.invalid && trySend"
+                >
+                  Actualizar Contraseña
+                </button>
+
+                <ng-container *ngIf="isViewMode">
+                  </ng-container>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
