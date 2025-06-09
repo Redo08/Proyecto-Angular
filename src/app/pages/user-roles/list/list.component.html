@@ -5,7 +5,7 @@
     <div class="col">
       <div class="card shadow">
         <div class="card-header bg-transparent d-flex justify-content-start align-items-center">
-          <h2 class="mb-0 display-4">Asignaciones de Roles</h2>
+          <h2 class="mb-0 display-4">Role Assignments</h2>
           <button
             type="button"
             class="btn btn-success btn-circle-plus margin-left-custom"
@@ -20,12 +20,13 @@
             <table class="table align-items-center table-flush">
               <thead class="thead-light">
                 <tr>
-                  <th scope="col">ID Asignación</th>
-                  <th scope="col">Nombre del Usuario</th>
-                  <th scope="col">Rol Asignado</th>
-                  <th>Fecha de Inicio</th>
-                  <th>Fecha de Fin</th>
-                  <th scope="col">Opciones</th>
+                  <th scope="col">IAssignment ID</th>
+                  <th scope="col">User Name</th>
+                  <th scope="col">Assigned Role</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th scope="col">Options</th>
+                  
                 </tr>
               </thead>
               <tbody>
@@ -39,9 +40,9 @@
                     <td>{{ userRole.startAt | date:'yyyy-MM-dd' }}</td>
                     <td>{{ userRole.endAt ? (userRole.endAt | date:'yyyy-MM-dd') : 'Sin definir' }}</td>                  
                   <td>
-                    <button class="btn btn-secondary btn-sm" (click)="view(userRole.id)">Ver</button>
-                    <button class="btn btn-primary" (click)="update(userRole.id)">Actualizar</button>
-                    <button class="btn btn-danger btn-sm" (click)="delete(userRole.id)">Eliminar</button>
+                    <button class="btn btn-secondary" (click)="view(userRole.id)">View</button>
+                    <button class="btn btn-primary" (click)="update(userRole.id)">Update</button>
+                    <button class="btn btn-danger" (click)="delete(userRole.id)">Delete</button>
                   </td>
                 </tr>
               </tbody>

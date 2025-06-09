@@ -1,0 +1,33 @@
+/* Estilos para el botón circular con la cruz */
+.btn-circle-plus {
+  width: 48px; /* Ancho del botón */
+  height: 48px; /* Alto del botón (igual al ancho para que sea circular) */
+  padding: 0; /* Eliminar padding para mejor control del centrado */
+  border-radius: 50%; /* Hace el botón circular */
+  display: flex; /* Usa flexbox para centrar el contenido (el ícono) */
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  font-size: 20px; /* Tamaño del ícono */
+  line-height: 1; /* Asegura que el ícono no tenga altura de línea extra */
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08); /* Opcional: una sombra sutil */
+}
+
+/* Para ajustar el color del ícono si es necesario */
+.btn-circle-plus i {
+  color: white; /* Asegura que el ícono sea blanco sobre el botón verde */
+}
+
+/* Opcional: Ajustes para el hover/active si quieres un efecto diferente */
+.btn-circle-plus:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+.btn-circle-plus:active {
+  transform: translateY(0);
+}
+
+.margin-left-custom {
+  margin-left: 2rem; /* Puedes ajustar este valor: 1rem, 1.5rem, 2rem, etc. */
+  /* 1rem es típicamente 16px por defecto. 2rem serían 32px. */
+}

@@ -20,7 +20,7 @@
                     id="user_id"
                     class="form-control"
                     formControlName="user_id"
-                    [disabled]="mode === 1 || mode === 3"
+                    [disabled]="mode === 1"
                   >
                     <option [ngValue]="null" disabled>Seleccione un usuario...</option>
                     <option *ngFor="let user of users" [ngValue]="user.id">{{ user.name }} ({{ user.email }})</option>
