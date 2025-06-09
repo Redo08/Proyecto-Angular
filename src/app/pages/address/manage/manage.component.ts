@@ -7,7 +7,22 @@ import { User } from 'src/app/models/user.model';
 import { AddressService } from 'src/app/services/address.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
-
+import * as L from 'leaflet'; // Para usar Leaflet
+import 'leaflet/dist/leaflet.css'
+const iconRetinaUrl = 'assets/leaflet/marker-icon-2x.png';
+const iconUrl = 'assets/leaflet/marker-icon.png';
+const shadowUrl = 'assets/leaflet/marker-shadow.png';
+const iconDefault = L.icon({
+  iconRetinaUrl,
+  iconUrl,
+  shadowUrl,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  tooltipAnchor: [16, -28],
+  shadowSize: [41, 41]
+});
+L.Marker.prototype.options.icon = iconDefault;
 @Component({
   selector: 'app-address-manage', // Selector único para este componente
   templateUrl: './manage.component.html',
@@ -17,12 +32,12 @@ export class ManageComponent implements OnInit {
   // Inicializamos 'address' para reflejar tu clase Address sin constructor.
   // Es importante que las propiedades no sean 'undefined' al inicio para evitar errores.
   address: Address = {
-    id: undefined, // Opcional
-    user_id: undefined, // Opcional
+    id: 0, // Opcional
+    user_id: 0, // Opcional
     street: '', // Asignamos un string vacío si lo consideras 'requerido' lógicamente
     number: '', // Asignamos un string vacío
-    latitude: undefined, // Opcional
-    longitude: undefined // Opcional
+    latitude: 0, // Opcional
+    longitude: 0 // Opcional
   };
 
   user: User = { // Inicialización básica del modelo User
@@ -39,8 +54,20 @@ export class ManageComponent implements OnInit {
   addressExists: boolean = false; // Variable para verificar si existe o no una dirección
   isEditing: boolean = false; // Nuevo estado para controlar si el formulario de edición está visible
 
+  
+  mapOptions: L.MapOptions = {
+      layers: [
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          })
+      ],
+      zoom: 12,
+      center: L.latLng(4.5709, -74.2973) // Centro por defecto de Colombia
+  };
+  map: L.Map | undefined; // Referencia al objeto mapa de Leaflet
+  marker: L.Marker | undefined; // Marcador para la ubicación seleccionada
   // **CORRECCIÓN:** Declaración de 'mapLocation'
-  mapLocation: { lat: number; lng: number } | null = null; // Para mostrar la ubicación en un posible mapa
+  //mapLocation: { lat: number; lng: number } | null = null; // Para mostrar la ubicación en un posible mapa
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -93,10 +120,7 @@ export class ManageComponent implements OnInit {
               latitude: this.address.latitude,
               longitude: this.address.longitude
             });
-            // Si hay latitud y longitud, inicializamos la ubicación del mapa de ejemplo
-            if (this.address.latitude && this.address.longitude) {
-              this.mapLocation = { lat: this.address.latitude, lng: this.address.longitude };
-            }
+           
             this.applyFormModeRules(); // Aplica las reglas de habilitación/deshabilitación del formulario
           },
           error: (err: HttpErrorResponse) => {
@@ -142,8 +166,10 @@ export class ManageComponent implements OnInit {
       email: [{ value: '', disabled: true }], // Campo de email de usuario (deshabilitado)
       street: ['', [Validators.required, Validators.maxLength(255)]],
       number: ['', [Validators.required, Validators.maxLength(20)]],
-      latitude: [null], // No requerido, puede ser null
-      longitude: [null] // No requerido, puede ser null
+      // --- INICIO CÓDIGO MAPA: Validadores para Latitud/Longitud ---
+      latitude: [null, [Validators.required, Validators.pattern(/^-?\d+(\.\d+)?$/)]],
+      longitude: [null, [Validators.required, Validators.pattern(/^-?\d+(\.\d+)?$/)]]
+      // --- FIN CÓDIGO MAPA ---
     });
   }
 
@@ -152,14 +178,27 @@ export class ManageComponent implements OnInit {
     if (this.isEditing) {
       this.theFormGroup.get('street')?.enable();
       this.theFormGroup.get('number')?.enable();
+       // --- INICIO CÓDIGO MAPA: Habilitar y aplicar validadores a campos de lat/lng en modo edición ---
       this.theFormGroup.get('latitude')?.enable();
+      this.theFormGroup.get('latitude')?.setValidators([Validators.required, Validators.pattern(/^-?\d+(\.\d+)?$/)]);
       this.theFormGroup.get('longitude')?.enable();
+      this.theFormGroup.get('longitude')?.setValidators([Validators.required, Validators.pattern(/^-?\d+(\.\d+)?$/)]);
+      // --- FIN CÓDIGO MAPA ---
+
     } else { // Modo vista
       this.theFormGroup.get('street')?.disable();
       this.theFormGroup.get('number')?.disable();
+      // --- INICIO CÓDIGO MAPA: Deshabilitar y limpiar validadores de campos de lat/lng en modo vista ---
       this.theFormGroup.get('latitude')?.disable();
+      this.theFormGroup.get('latitude')?.clearValidators();
       this.theFormGroup.get('longitude')?.disable();
+      this.theFormGroup.get('longitude')?.clearValidators();
+      // --- FIN CÓDIGO MAPA ---
     }
+     // --- INICIO CÓDIGO MAPA: Actualizar validadores ---
+    this.theFormGroup.get('latitude')?.updateValueAndValidity();
+    this.theFormGroup.get('longitude')?.updateValueAndValidity();
+    // --- FIN CÓDIGO MAPA ---
     // Estos campos siempre deben estar deshabilitados ya que son de solo lectura del usuario
     this.theFormGroup.get('id')?.disable();
     this.theFormGroup.get('userId')?.disable();
@@ -212,10 +251,11 @@ export class ManageComponent implements OnInit {
           this.addressExists = true; // Ahora la dirección existe
           this.isEditing = false; // Volvemos al modo vista
           this.applyFormModeRules(); // Aplicamos las reglas del formulario
-          // Opcional: Actualizar mapLocation si se acaba de crear con coordenadas
+          // --- INICIO CÓDIGO MAPA: Actualizar el mapa después de crear ---
           if (this.address.latitude && this.address.longitude) {
-            this.mapLocation = { lat: this.address.latitude, lng: this.address.longitude };
+            this.updateMapLocation(this.address.latitude, this.address.longitude);
           }
+          // --- FIN CÓDIGO MAPA ---
           Swal.fire({
             title: "Creado!",
             text: "Dirección creada correctamente.",
@@ -252,9 +292,9 @@ export class ManageComponent implements OnInit {
           this.address = address; // Asigna la dirección actualizada
           this.isEditing = false; // Volvemos al modo vista
           this.applyFormModeRules(); // Aplicamos las reglas del formulario
-          // Actualizar mapLocation si se acaba de actualizar con coordenadas
+          // --- INICIO CÓDIGO MAPA: Actualizar el mapa después de actualizar ---
           if (this.address.latitude && this.address.longitude) {
-            this.mapLocation = { lat: this.address.latitude, lng: this.address.longitude };
+            this.updateMapLocation(this.address.latitude, this.address.longitude);
           }
           Swal.fire({
             title: "Actualizado!",
@@ -310,8 +350,10 @@ export class ManageComponent implements OnInit {
                 latitude: undefined,
                 longitude: undefined
               });
-              this.mapLocation = null; // Borrar la ubicación del mapa
+               // Borrar la ubicación del mapa
               this.applyFormModeRules(); // Aplicamos las reglas del formulario
+              // --- INICIO CÓDIGO MAPA: Limpiar marcador del mapa al eliminar ---
+              this.clearMapMarker();
             },
             error: (error) => {
               console.error("Error al eliminar dirección:", error);
@@ -349,11 +391,82 @@ export class ManageComponent implements OnInit {
     });
     this.trySend = false; // Reseteamos el estado de intento de envío
     this.applyFormModeRules();
-    // Reinicializar mapLocation
+   // --- INICIO CÓDIGO MAPA: Restaurar ubicación del mapa al cancelar edición ---
     if (this.address.latitude && this.address.longitude) {
-      this.mapLocation = { lat: this.address.latitude, lng: this.address.longitude };
+      this.updateMapLocation(this.address.latitude, this.address.longitude);
     } else {
-      this.mapLocation = null;
+      this.clearMapMarker(); // Si no había dirección, limpia el marcador
+    }
+    // --- FIN CÓDIGO MAPA ---
+  }
+  // --- INICIO CÓDIGO MAPA: Métodos de Interacción con el Mapa ---
+
+  // Se ejecuta cuando el mapa de Leaflet está listo. Aquí guardamos la instancia del mapa
+  // y le añadimos un listener para el evento 'click'.
+  onMapReady(map: L.Map) {
+    this.map = map;
+    this.map.on('click', this.mapClick, this);
+
+    // ************ CLAVE: Aquí es donde inicializamos el marcador ************
+    // Después de que el mapa esté listo, si ya tenemos una dirección, la mostramos.
+    if (this.addressExists && this.address.latitude && this.address.longitude) {
+      this.updateMapLocation(this.address.latitude, this.address.longitude);
+    } else if (!this.addressExists && this.isEditing) {
+      // Si estamos en modo creación y no hay dirección previa, puedes centrar en una ubicación predeterminada
+      // o dejar que el usuario haga clic para establecer la primera ubicación.
+      // Por ejemplo, para centrar en la ubicación por defecto que definiste en mapOptions:
+      this.map.setView(this.mapOptions.center!, this.mapOptions.zoom);
     }
   }
+
+  // Manejador del evento de clic en el mapa.
+  // Obtiene las coordenadas del clic y actualiza el formulario y el marcador en el mapa.
+  mapClick(e: L.LeafletMouseEvent) {
+    // Solo permitimos la interacción con el mapa si el formulario está en modo de edición
+    if (!this.isEditing) {
+        return;
+    }
+
+    const { lat, lng } = e.latlng; // Extrae latitud y longitud del evento del clic
+    this.updateFormCoordinates(lat, lng); // Actualiza los campos del formulario
+    this.updateMapLocation(lat, lng); // Actualiza la posición del marcador en el mapa
+  }
+
+  // Actualiza los valores de latitud y longitud en el formulario reactivo.
+  updateFormCoordinates(lat: number, lng: number) {
+    this.theFormGroup.patchValue({
+      latitude: lat,
+      longitude: lng
+    });
+  }
+
+  // Actualiza la posición del marcador en el mapa y centra la vista del mapa.
+  updateMapLocation(lat: number, lng: number) {
+    // Es CRUCIAL que this.map esté definido antes de intentar usarlo
+    if (!this.map) {
+        console.error("El mapa no está listo para actualizar la ubicación.");
+        return; // Salir si el mapa no está inicializado
+    }
+
+    if (this.marker) {
+      this.marker.remove(); // Usar .remove() en lugar de map.removeLayer(marker) para el objeto marker
+    }
+
+    this.marker = L.marker([lat, lng]).addTo(this.map);
+    this.map.setView([lat, lng], 15);
+  }
+
+  // Elimina el marcador del mapa y, opcionalmente, resetea la vista del mapa a su centro por defecto.
+ clearMapMarker() {
+    if (this.marker) {
+      this.marker.remove();
+      this.marker = undefined;
+    }
+    if (this.map) { // Asegúrate de que el mapa exista antes de intentar centrarlo
+      this.map.setView(this.mapOptions.center!, this.mapOptions.zoom);
+    }
+  }
+  // --- FIN CÓDIGO MAPA ---
+
+ 
 }

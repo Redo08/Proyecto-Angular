@@ -1,0 +1,29 @@
+/* --- Estilos del Mapa --- */
+.map-frame-wrapper {
+  width: 100%;
+  padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+  position: relative;
+  height: 0;
+  overflow: hidden;
+}
+
+.map-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Asegura que el contenedor interno de Leaflet tenga dimensiones */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+}
+
+/* --- Fin Estilos del Mapa --- */
+
+/* ... tus otros estilos SCSS existentes ... */

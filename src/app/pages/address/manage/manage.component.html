@@ -22,7 +22,21 @@
 
         <div class="card-body">
           <ng-container *ngIf="addressExists && !isEditing">
-            <div class="row d-flex align-items-center mb-4">
+            <div class="row">
+              <div class="col-md-6 d-flex align-items-center justify-content-center mb-3">
+                <div class="map-frame-wrapper">
+                  <h3 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Ubicación de la dirección:</h3>
+                  <div class="map-frame">
+                    <div
+                      leaflet
+                      [leafletOptions]="mapOptions"
+                      (leafletMapReady)="onMapReady($event)"
+                    ></div>
+                  </div>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Ubicación de la dirección actual.</p>
+                </div>
+              </div>
+
               <div class="col-md-6">
                 <h3 class="mb-2"><strong>User Name:</strong> {{ user.name || 'N/A' }}</h3>
                 <h3 class="mb-2"><strong>User Email:</strong> {{ user.email || 'N/A' }}</h3>
@@ -30,15 +44,6 @@
                 <h3 class="mb-2"><strong>Number:</strong> {{ address.number || 'N/A' }}</h3>
                 <h3 class="mb-2"><strong>Latitude:</strong> {{ address.latitude || 'N/A' }}</h3>
                 <h3 class="mb-2"><strong>Longitude:</strong> {{ address.longitude || 'N/A' }}</h3>
-              </div>
-              <div class="col-md-6 text-center">
-                <div
-                  class="bg-light d-flex align-items-center justify-content-center"
-                  style="width: 100%; height: 250px; border: 1px solid #ccc; background-color: #f0f0f0;"
-                >
-                  <p class="text-muted">Map Placeholder</p>
-                  <i *ngIf="address.latitude && address.longitude" class="fas fa-map-marker-alt" style="font-size: 3em; color: #dc3545; position: absolute;"></i>
-                </div>
               </div>
             </div>
 
@@ -60,14 +65,16 @@
               <div class="card-body container">
                 <div class="row">
                   <div class="col-md-6 d-flex align-items-center justify-content-center mb-3">
-                    <div
-                      class="bg-light d-flex align-items-center justify-content-center"
-                      style="width: 100%; height: 350px; border: 1px solid #ccc; background-color: #f0f0f0;"
-                    >
-                      <p class="text-muted">Location on Map</p>
-                       <i *ngIf="theFormGroup.get('latitude')?.value && theFormGroup.get('longitude')?.value"
-                         class="fas fa-map-marker-alt"
-                         style="font-size: 3em; color: #dc3545; position: absolute;"></i>
+                    <div class="map-frame-wrapper">
+                      <h3 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Selecciona tu ubicación en el mapa:</h3>
+                      <div class="map-frame">
+                        <div
+                          leaflet
+                          [leafletOptions]="mapOptions"
+                          (leafletMapReady)="onMapReady($event)"
+                        ></div>
+                      </div>
+                      <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Haz clic en el mapa para seleccionar tu ubicación y auto-rellenar las coordenadas.</p>
                     </div>
                   </div>
 
@@ -119,6 +126,13 @@
                           formControlName="latitude"
                           step="any"
                         />
+                        <div
+                          *ngIf="getTheFormGroup.latitude?.errors && (getTheFormGroup.latitude?.dirty || getTheFormGroup.latitude?.touched || trySend)"
+                          class="invalid-feedback"
+                        >
+                          <strong *ngIf="getTheFormGroup.latitude?.errors?.required">Latitude is required</strong>
+                          <strong *ngIf="getTheFormGroup.latitude?.errors?.pattern">Please enter a valid latitude</strong>
+                        </div>
                       </div>
                     </div>
 
@@ -131,9 +145,19 @@
                           formControlName="longitude"
                           step="any"
                         />
+                        <div
+                          *ngIf="getTheFormGroup.longitude?.errors && (getTheFormGroup.longitude?.dirty || getTheFormGroup.longitude?.touched || trySend)"
+                          class="invalid-feedback"
+                        >
+                          <strong *ngIf="getTheFormGroup.longitude?.errors?.required">Longitude is required</strong>
+                          <strong *ngIf="getTheFormGroup.longitude?.errors?.pattern">Please enter a valid longitude</strong>
+                        </div>
                       </div>
                     </div>
-                  </div> </div> </div> <div class="row mt-4">
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-4">
                 <div class="col-12 text-center">
                   <button
                     type="submit"
@@ -171,5 +195,8 @@
               </div>
             </form>
           </ng-container>
-        </div> </div> </div> </div> </div> ```
-
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
