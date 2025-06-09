@@ -29,9 +29,10 @@
                     <td>{{rol.name}}</td>
                     <td>{{rol.description}}</td>
                     <td>
-                      <button class="btn btn-secondary" (click)="view(rol.id)">Visualizar</button>
+                        <button class="btn btn-secondary" (click)="view(rol.id)">Visualizar</button>
                         <button class="btn btn-primary" (click)="edit(rol.id)">Editar</button>
                         <button class="btn btn-danger" (click)="delete(rol.id)">Eliminar</button>
+                        <button class="btn btn-info" (click)="managePermissions(rol.id!)">Permissions</button>
                     </td>
                 </tr>
             </table>

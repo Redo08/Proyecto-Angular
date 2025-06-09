@@ -27,44 +27,48 @@ export class ListComponent implements OnInit {
       console.log(JSON.stringify(this.roles));
 
     });
-
   }
-   create() {
-      this.router.navigate(['/roles/create'])
-    }
-    view(id: number) {
-      this.router.navigate([`/roles/view/${id}`])
-    }
-    edit(id: number) {
-      this.router.navigate([`/roles/update/${id}`])
-    }
+  create() {
+    this.router.navigate(['/roles/create'])
+  }
+
+  view(id: number) {
+    this.router.navigate([`/roles/view/${id}`])
+  }
+   
+  edit(id: number) {
+    this.router.navigate([`/roles/update/${id}`])
+  }
+
+  // Metodo para navegar a la gestión de permisos
+  managePermissions(id: number) {
+    this.router.navigate([`/roles/${id}/permissions`]);
+  }
     
-    delete(id: number) {
-      console.log("Delete theater with id:", id);
-      Swal.fire({
-        title: 'Eliminar',
-        text: "Está seguro que quiere eliminar el registro?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, eliminar',
-        cancelButtonText: 'Cancelar'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.service.delete(id).
-            subscribe(data => {
-              Swal.fire(
-                'Eliminado!',
-                'Registro eliminado correctamente.',
-                'success'
-              )
-              this.ngOnInit();
-            });
+    
+  delete(id: number) {
+    console.log("Delete theater with id:", id);
+    Swal.fire({
+      title: 'Eliminar',
+      text: "Está seguro que quiere eliminar el registro?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.service.delete(id).
+        subscribe(data => {
+            Swal.fire(
+              'Eliminado!',
+              'Registro eliminado correctamente.',
+              'success'
+            )
+            this.ngOnInit();
+          });
         }
-      })
-  
-    }
-
-
+    })
+  }
 }
