@@ -15,7 +15,7 @@ export class ManageComponent implements OnInit {
   permission: Permission;
   theFormGroup: FormGroup;
   trySend: boolean;
-  methods: string[] = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS']; // Métodos HTTP comunes
+  methods: string[] = ['GET', 'POST', 'PUT', 'DELETE']; // Métodos HTTP comunes
   entities: string[] = []; // Se llenará con las entidades únicas de los permisos existentes
   constructor(
     private activatedRoute: ActivatedRoute,
