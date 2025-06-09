@@ -59,7 +59,7 @@ export class ManageComponent implements OnInit {
   configFormGroup(): void {
     this.userRoleForm = this.fb.group({
       user_id: [{ value: null, disabled: this.mode === 1 || this.mode === 3 }, [Validators.required]],
-      role_id: [{ value: null, disabled: this.mode === 1 || this.mode === 3 }, [Validators.required]],
+      role_id: [{ value: null, disabled: this.mode === 1}, [Validators.required]],
       startAt: ['', [Validators.required]],
       endAt: ['', [Validators.required]],
     }, { validators: this.dateRangeValidator });

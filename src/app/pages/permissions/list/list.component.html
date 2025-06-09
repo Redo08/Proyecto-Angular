@@ -3,10 +3,15 @@
   <div class="row">
     <div class="col">
       <div class="card shadow">
-        <div class="card-header border-0 d-flex justify-content-between align-items-center">
-          <h3 class="mb-0">Lista de Permisos</h3>
-          <button type="button" class="btn btn-success" (click)="create()">
-            <i class="fas fa-plus"></i> Crear Permiso
+        <div class="card-header border-0 d-flex justify-content-start align-items-center">
+          <h3 class="mb-0">Permissions List</h3>
+          <button
+            type="button"
+            class="btn btn-success btn-circle-plus margin-left-custom"
+            (click)="create()"
+            title="Create"
+          >
+            <i class="fas fa-plus"></i>
           </button>
         </div>
         <div class="table-responsive">
@@ -15,28 +20,31 @@
               <tr>
                 <th scope="col">ID</th>
                 <th scope="col">URL</th>
-                <th scope="col">Método</th>
-                <th scope="col">Entidad</th>
-                <th scope="col"></th>
+                <th scope="col">Method</th>
+                <th scope="col">Entity</th>
+                <th scope="col">Options</th>
               </tr>
             </thead>
             <tbody>
+              <tr *ngIf="!permissions || permissions.length === 0">
+                <td colspan="5" class="text-center">No permissions to display.</td>
+              </tr>
               <tr *ngFor="let permission of permissions">
                 <td>{{ permission.id }}</td>
                 <td>{{ permission.url }}</td>
                 <td>{{ permission.method }}</td>
                 <td>{{ permission.entity }}</td>
                 <td>
-                    <button class="btn btn-secondary" (click)="view(permission.id!)">View</button>
-                    <button class="btn btn-primary" (click)="edit(permission.id!)">Update</button>
-                    <button class="btn btn-danger" (click)="delete(permission.id!)">Delete</button>
+                  <button class="btn btn-secondary" (click)="view(permission.id!)">View</button>
+                  <button class="btn btn-primary" (click)="edit(permission.id!)">Update</button>
+                  <button class="btn btn-danger" (click)="delete(permission.id!)">Delete</button>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
         <div class="card-footer py-4">
-          </div>
+        </div>
       </div>
     </div>
   </div>

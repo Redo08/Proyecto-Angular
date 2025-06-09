@@ -2,40 +2,49 @@
 </div>
 <!-- Page content -->
 <div class="container-fluid mt--7">
-  <!-- Table -->
   <div class="row">
     <div class="col">
       <div class="card shadow">
-        <div class="card-header bg-transparent">
-          <h3 class="mb-0">Roles</h3>
-           <button
+        <div class="card-header bg-transparent d-flex justify-content-start align-items-center">
+          <h2 class="mb-0 display-4">Roles</h2>
+          <button
             type="button"
             class="btn btn-success btn-circle-plus margin-left-custom"
             (click)="create()"
+            title="Create"
           >
-          <i class="fas fa-plus"></i>
+            <i class="fas fa-plus"></i>
           </button>
         </div>
         <div class="card-body">
-            <table class="table">
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
                 <tr>
-                    <td>Id</td>
-                    <td>Nombre</td>
-                    <td>Descripcón</td>
-                   
+                  <th scope="col">ID</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Options</th>
                 </tr>
-                <tr *ngFor="let rol of roles">  <!-- Condicionales y ciclos dentro de HTML-->
-                    <td>{{rol.id}}</td>
-                    <td>{{rol.name}}</td>
-                    <td>{{rol.description}}</td>
-                    <td>
-                        <button class="btn btn-secondary" (click)="view(rol.id)">Visualizar</button>
-                        <button class="btn btn-primary" (click)="edit(rol.id)">Editar</button>
-                        <button class="btn btn-danger" (click)="delete(rol.id)">Eliminar</button>
-                        <button class="btn btn-info" (click)="managePermissions(rol.id!)">Permissions</button>
-                    </td>
+              </thead>
+              <tbody>
+                <tr *ngIf="!roles || roles.length === 0">
+                  <td colspan="4" class="text-center">No roles to display.</td>
                 </tr>
+                <tr *ngFor="let rol of roles">
+                  <td>{{ rol.id }}</td>
+                  <td>{{ rol.name }}</td>
+                  <td>{{ rol.description }}</td>
+                  <td>
+                    <button class="btn btn-secondary" (click)="view(rol.id)">View</button>
+                    <button class="btn btn-primary" (click)="edit(rol.id)">Update</button>
+                    <button class="btn btn-danger" (click)="delete(rol.id)">Delete</button>
+                    <button class="btn btn-info" (click)="managePermissions(rol.id!)">Permissions</button>
+                  </td>
+                </tr>
+              </tbody>
             </table>
+          </div>
         </div>
       </div>
     </div>

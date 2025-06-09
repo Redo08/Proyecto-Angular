@@ -1,8 +1,6 @@
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
-</div>
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
 <!-- Page content -->
 <div class="container-fluid mt--7">
-  <!-- Table -->
   <div class="row">
     <div class="col">
       <div class="card shadow">
@@ -12,35 +10,43 @@
             type="button"
             class="btn btn-success btn-circle-plus margin-left-custom"
             (click)="create()"
+            title="Create"
           >
-          <i class="fas fa-plus"></i>
+            <i class="fas fa-plus"></i>
           </button>
         </div>
         <div class="card-body">
-            <table class="table">
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
                 <tr>
-                    <td>ID</td>
-                    <td>Name</td>
-                    <td>Email</td>
-                    <td>Options</td>
+                  <th scope="col">ID</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Options</th>
                 </tr>
-                <tr *ngFor="let user of users">  <!-- Condicionales y ciclos dentro de HTML-->
-                    <td>{{user.id}}</td>
-                    <td>{{user.name}}</td>
-                    <td>{{user.email}}</td>
-                    <td>
-                      <button class="btn btn-secondary" (click)="view(user.id)">View</button>
-                      <button class="btn btn-primary" (click)="edit(user.id)">Update</button>
-                      <button class="btn btn-danger" (click)="delete(user.id)">Delete</button>
-
-                      <button class="btn btn-warning btn-sm" (click)="manageAddress(user.id)">Address</button>
-                      <button class="btn btn-info" [routerLink]="['/users', user.id, 'profile']">Profile</button>
-                      <button class="btn btn-info" [routerLink]="['/users', user.id, 'sessions']">Sessions</button>
-                      <button class="btn btn-info" [routerLink]="['/users', user.id, 'passwords']">contraseñas</button>
-                      
-                    </td>
+              </thead>
+              <tbody>
+                <tr *ngIf="!users || users.length === 0">
+                  <td colspan="4" class="text-center">No users to display.</td>
                 </tr>
+                <tr *ngFor="let user of users">
+                  <td>{{user.id}}</td>
+                  <td>{{user.name}}</td>
+                  <td>{{user.email}}</td>
+                  <td>
+                    <button class="btn btn-secondary" (click)="view(user.id)">View</button>
+                    <button class="btn btn-primary" (click)="edit(user.id)">Update</button>
+                    <button class="btn btn-danger" (click)="delete(user.id)">Delete</button>
+                    <button class="btn btn-warning " (click)="manageAddress(user.id)">Address</button>
+                    <button class="btn btn-info" [routerLink]="['/users', user.id, 'profile']">Profile</button>
+                    <button class="btn btn-success" [routerLink]="['/users', user.id, 'sessions']">Sessions</button>
+                    <button class="btn btn-dark" [routerLink]="['/users', user.id, 'passwords']">Passwords</button>
+                  </td>
+                </tr>
+              </tbody>
             </table>
+          </div>
         </div>
       </div>
     </div>
